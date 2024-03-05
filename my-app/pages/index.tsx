@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import {client} from "../libs/client"
 import { BLOCKED_PAGES } from "next/dist/shared/lib/constants";
-
+import { Header } from "./components/header";
 const inter = Inter({ subsets: ["latin"] });
 interface NewsItem{
   id:string;
@@ -16,23 +16,23 @@ interface Props {
 }
 export default function Home({news}:Props) {
   return (
+    
     <div>
-     {news.map((news)=>(
-      <li key={news.id}>
-        <Link href={`news/${news.id}`}>
-          {news.title}
-        </Link>
+      <Header/>
+      {news.map((news)=>(
+        <li key={news.id}>
+          <Link href={`news/${news.id}`}>
+            {news.title}
+          </Link>
         
         
-      </li>
-     ))}
+        </li>
+      ))}
     </div>
   );
 }
 export const getStaticProps = async () =>{
   const data = await client.get({endpoint:"news"})
-    console.log(data)
-  
   return{
     props:{
       news:data.contents,
